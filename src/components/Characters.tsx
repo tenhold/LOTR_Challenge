@@ -1,11 +1,20 @@
 import React from 'react';
 import { docs } from '../data/characters.json';
+import { Character } from './Character';
 
 export const Characters = () => {
   return (
-    <div className='bg-gray-200'>
-      {docs.map(({ name }) => (
-        <h2>{name}</h2>
+    <div>
+      {docs.map(({ name, race, gender, birth, death, wikiUrl }) => (
+        <Character
+          key={name}
+          name={name}
+          race={race}
+          gender={gender}
+          birth={birth}
+          death={death}
+          wikiUrl={wikiUrl}
+        />
       ))}
     </div>
   );
