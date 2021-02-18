@@ -3,7 +3,7 @@ import { docs } from '../data/characters.json';
 
 export const Characters = () => {
   return (
-    <div>
+    <div className='bg-gray-200'>
       {docs.map(({ name }) => (
         <h2>{name}</h2>
       ))}
