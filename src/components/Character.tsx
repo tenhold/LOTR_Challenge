@@ -17,7 +17,7 @@ export const Character: React.FC<CharacterProps> = ({
       <p>
         Birth: {birth} Death: {death}
       </p>
-      <a href={wikiUrl}>iki</a>
+      <a href={wikiUrl}>Wiki</a>
     </div>
   );
 };

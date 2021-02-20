@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { CharacterProps } from '../types';
-import { docs } from '../data/characters';
+// import { docs } from '../data/characters';
+import { docs } from '../data/mainCharacters';
 import { Character } from './Character';
 
 export const Characters = () => {
   const [characters, setCharacters] = useState<CharacterProps[]>([]);
+  const [sortType, setSortType] = useState('name');
+
+  useEffect(() => {
+    const sortCharacters = (type: string) => {
+      const sortChar = [...characters].sort((a: any, b: any) => {
+        return a[type].localeCompare(b[type]);
+      });
+      setCharacters(sortChar);
+    };
+
+    sortCharacters(sortType);
+  }, [sortType]);
 
   useEffect(() => {
     (async () => {
@@ -23,6 +36,11 @@ export const Characters = () => {
   }, []);
   return (
     <div>
+      <select onChange={(e) => setSortType(e.target.value)}>
+        <option value='name'>Name</option>
+        <option value='race'>Race</option>
+      </select>
+
       {characters &&
         characters.map(({ name, race, gender, birth, death, wikiUrl }, i) => (
           <Character
