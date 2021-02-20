@@ -7,7 +7,15 @@ import { Character } from './Character';
 
 export const Characters = () => {
   const [characters, setCharacters] = useState<CharacterProps[]>([]);
-  const [sortType, setSortType] = useState('name');
+  const [sortType, setSortType] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const getCharacter = [...characters].filter(
+      (character) => e.target.value === character.name
+    );
+    setCharacters(getCharacter);
+  };
 
   useEffect(() => {
     const sortCharacters = (type: string) => {
@@ -34,25 +42,35 @@ export const Characters = () => {
       }, 100);
     })();
   }, []);
+
   return (
     <div>
-      <select onChange={(e) => setSortType(e.target.value)}>
-        <option value='name'>Name</option>
-        <option value='race'>Race</option>
-      </select>
-
-      {characters &&
-        characters.map(({ name, race, gender, birth, death, wikiUrl }, i) => (
-          <Character
-            key={i}
-            name={name}
-            race={race}
-            gender={gender}
-            birth={birth}
-            death={death}
-            wikiUrl={wikiUrl}
-          />
-        ))}
+      <div>
+        <select onChange={(e) => setSortType(e.target.value)}>
+          <option defaultValue='' disabled>
+            -- select an option --
+          </option>
+          <option value='name'>Name</option>
+          <option value='race'>Race</option>
+        </select>
+        <form>
+          <input type='text' onChange={handleChange} />
+        </form>
+      </div>
+      <div>
+        {characters &&
+          characters.map(({ name, race, gender, birth, death, wikiUrl }, i) => (
+            <Character
+              key={i}
+              name={name}
+              race={race}
+              gender={gender}
+              birth={birth}
+              death={death}
+              wikiUrl={wikiUrl}
+            />
+          ))}
+      </div>
     </div>
   );
 };
