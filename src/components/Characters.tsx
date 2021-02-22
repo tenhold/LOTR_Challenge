@@ -7,15 +7,18 @@ import { Character } from './Character';
 
 export const Characters = () => {
   const [characters, setCharacters] = useState<CharacterProps[]>([]);
+  const [character, setCharacter] = useState<CharacterProps[]>([]);
   const [sortType, setSortType] = useState('');
+  const [search, setSearch] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const getCharacter = [...characters].filter(
-      (character) => e.target.value === character.name
-    );
-    setCharacters(getCharacter);
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   e.preventDefault();
+  //   setSearch(e.target.value);
+  //   const getCharacter = [...characters].filter((character: any) =>
+  //     search.includes(character.name)
+  //   );
+  //   setCharacters(getCharacter);
+  // };
 
   useEffect(() => {
     const sortCharacters = (type: string) => {
@@ -27,6 +30,14 @@ export const Characters = () => {
 
     sortCharacters(sortType);
   }, [sortType]);
+
+  useEffect(() => {
+    setCharacter(
+      [...characters].filter((character: CharacterProps | any) => {
+        return character.name.toLowerCase().includes(search.toLowerCase());
+      })
+    );
+  }, [search, characters]);
 
   useEffect(() => {
     (async () => {
@@ -53,13 +64,17 @@ export const Characters = () => {
           <option value='name'>Name</option>
           <option value='race'>Race</option>
         </select>
-        <form>
-          <input type='text' onChange={handleChange} />
-        </form>
+        <input
+          placeholder='Search...'
+          type='text'
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button onClick={(e) => setSearch('')}>Clear</button>
       </div>
       <div>
         {characters &&
-          characters.map(({ name, race, gender, birth, death, wikiUrl }, i) => (
+          character.map(({ name, race, gender, birth, death, wikiUrl }, i) => (
             <Character
               key={i}
               name={name}
