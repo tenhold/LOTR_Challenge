@@ -50,29 +50,39 @@ export const Characters = () => {
 
       setTimeout(() => {
         setCharacters(docs);
-      }, 100);
+      }, 500);
     })();
   }, []);
 
   return (
     <div>
-      <div>
-        <select onChange={(e) => setSortType(e.target.value)}>
-          <option defaultValue='' disabled>
+      <div className='flex m-5 justify-evenly md:'>
+        <select
+          className='bg-green-200 shadow-sm rounded-md border-4 border-green-400'
+          onChange={(e) => setSortType(e.target.value)}>
+          <option
+            className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+            defaultValue=''
+            disabled>
             -- select an option --
           </option>
           <option value='name'>Name</option>
           <option value='race'>Race</option>
         </select>
         <input
+          className='rounded-md shadow-sm rounded-lg'
           placeholder='Search...'
           type='text'
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <button onClick={(e) => setSearch('')}>Clear</button>
+        <button
+          className='px-3 py-1.5 hover:bg-green-400 rounded-md border-b-4 border-r-4 border-opacity-25 border-green-400 shadow-sm rounded-lg'
+          onClick={(e) => setSearch('')}>
+          Clear
+        </button>
       </div>
-      <div>
+      <div className='lg:grid-cols-3 gap-3 md:grid grid-cols-2'>
         {characters &&
           character.map(({ name, race, gender, birth, death, wikiUrl }, i) => (
             <Character
